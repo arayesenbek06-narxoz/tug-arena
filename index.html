@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tug Arena</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- MAIN MENU -->
+    <main class="menu" id="mainMenu">
+
+        <h1>TUG ARENA</h1>
+
+        <p class="subtitle">
+            Pull smarter. Not harder.
+        </p>
+
+        <button class="play-button" id="playButton">
+            PLAY
+        </button>
+
+    </main>
+
+
+    <!-- GAME SCREEN -->
+    <main class="game hidden" id="gameScreen">
+
+        <div class="game-header">
+            <h2>TUG ARENA</h2>
+            <div class="timer">
+                TIME: <span id="timer">30</span>
+            </div>
+        </div>
+
+        <div class="players">
+
+            <div class="player">
+                <div class="character">💪</div>
+                <h3>YOU</h3>
+            </div>
+
+            <div class="versus">
+                VS
+            </div>
+
+            <div class="player">
+                <div class="character">🤖</div>
+                <h3>BOT</h3>
+            </div>
+
+        </div>
+
+
+        <!-- ROPE AREA -->
+
+        <div class="arena">
+
+            <div class="finish-line left-line"></div>
+
+            <div class="rope-track">
+
+                <div class="rope" id="rope">
+
+                    <div class="rope-line"></div>
+
+                    <div class="center-marker">
+                        ▼
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="finish-line right-line"></div>
+
+        </div>
+
+
+        <!-- STAMINA -->
+
+        <div class="stamina-section">
+
+            <p>YOUR STAMINA</p>
+
+            <div class="stamina-bar">
+                <div class="stamina-fill" id="playerStamina"></div>
+            </div>
+
+            <p id="staminaText">100%</p>
+
+        </div>
+
+
+        <!-- CONTROLS -->
+
+        <div class="controls">
+
+            <button class="pull-button" id="pullButton">
+                PULL
+            </button>
+
+            <button class="power-button" id="powerButton">
+                POWER PULL
+            </button>
+
+        </div>
+
+        <p class="controls-help">
+    SPACE = Pull &nbsp;&nbsp; | &nbsp;&nbsp; E = Power Pull
+</p>
+
+    </main>
+<!-- COUNTDOWN -->
+<div class="countdown-overlay hidden" id="countdownOverlay">
+    <div class="countdown-number" id="countdownNumber">
+        3
+    </div>
+</div>
+    <!-- RESULT SCREEN -->
+    <div class="result-overlay hidden" id="resultOverlay">
+
+        <div class="result-card">
+
+            <div class="result-icon" id="resultIcon">🏆</div>
+
+            <h2 id="resultTitle">YOU WIN!</h2>
+
+            <p id="resultMessage">
+                You pulled your opponent across the line.
+            </p>
+
+            <button class="rematch-button" id="rematchButton">
+                REMATCH
+            </button>
+
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
