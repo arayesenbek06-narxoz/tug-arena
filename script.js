@@ -1,3 +1,38 @@
+// =========================
+// MATCH STATISTICS
+// =========================
+
+let wins = Number(localStorage.getItem("tugWins")) || 0;
+let losses = Number(localStorage.getItem("tugLosses")) || 0;
+let matches = Number(localStorage.getItem("tugMatches")) || 0;
+
+function updateStatsDisplay() {
+    document.getElementById("wins").textContent = wins;
+    document.getElementById("losses").textContent = losses;
+    document.getElementById("matches").textContent = matches;
+}
+
+function saveStats() {
+    localStorage.setItem("tugWins", wins);
+    localStorage.setItem("tugLosses", losses);
+    localStorage.setItem("tugMatches", matches);
+
+    updateStatsDisplay();
+}
+
+function recordWin() {
+    wins++;
+    matches++;
+    saveStats();
+}
+
+function recordLoss() {
+    losses++;
+    matches++;
+    saveStats();
+}
+
+updateStatsDisplay();
 // ===============================
 // ELEMENTS
 // ===============================
@@ -10,6 +45,8 @@ const pullButton = document.getElementById("pullButton");
 const powerButton = document.getElementById("powerButton");
 
 const rope = document.getElementById("rope");
+const playerCharacter = document.getElementById("playerCharacter");
+const botCharacter = document.getElementById("botCharacter");
 
 const playerStaminaBar = document.getElementById("playerStamina");
 const staminaText = document.getElementById("staminaText");
@@ -39,8 +76,95 @@ let timeLeft = 30;
 
 let gameActive = false;
 
+let difficulty = localStorage.getItem("tugDifficulty") || "normal";
+
 const WIN_POSITION = 280;
 
+// =============================
+// DIFFICULTY SELECTION
+// =============================
+
+const difficultyButtons = document.querySelectorAll(".difficulty-btn");
+
+difficultyButtons.forEach(function (button) {
+
+    // Show saved difficulty as active
+    if (button.dataset.difficulty === difficulty) {
+        difficultyButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+    }
+
+    button.addEventListener("click", function () {
+
+        difficulty = button.dataset.difficulty;
+
+        localStorage.setItem("tugDifficulty", difficulty);
+
+        difficultyButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+
+    });
+
+});
+// ============================
+// ROPE ANIMATION
+// ============================
+
+function animateRope(type) {
+    rope.classList.remove("pull-effect", "power-effect");
+
+    // Restart animation
+    void rope.offsetWidth;
+
+    if (type === "power") {
+        rope.classList.add("power-effect");
+    } else {
+        rope.classList.add("pull-effect");
+    }
+
+    setTimeout(function () {
+        rope.classList.remove("pull-effect", "power-effect");
+    }, 400);
+}
+// ============================
+// CHARACTER ANIMATION
+// ============================
+
+function animateCharacters(type) {
+
+    playerCharacter.classList.remove(
+        "player-pull",
+        "player-power"
+    );
+
+    botCharacter.classList.remove(
+        "bot-hit",
+        "bot-power-hit"
+    );
+
+    void playerCharacter.offsetWidth;
+    void botCharacter.offsetWidth;
+
+    if (type === "power") {
+        playerCharacter.classList.add("player-power");
+        botCharacter.classList.add("bot-power-hit");
+    } else {
+        playerCharacter.classList.add("player-pull");
+        botCharacter.classList.add("bot-hit");
+    }
+
+    setTimeout(function () {
+        playerCharacter.classList.remove(
+            "player-pull",
+            "player-power"
+        );
+
+        botCharacter.classList.remove(
+            "bot-hit",
+            "bot-power-hit"
+        );
+    }, 450);
+}
 
 // ===============================
 // START BUTTON
@@ -134,6 +258,9 @@ function normalPull() {
     ropePosition -= 4;
     playerStamina -= 5;
 
+animateRope("normal");
+animateCharacters("normal");
+
     updateGame();
     checkWinner();
 }
@@ -157,6 +284,9 @@ function powerPull() {
 
     ropePosition -= 12;
     playerStamina -= 20;
+
+    animateRope("power");
+    animateCharacters("power");
 
     updateGame();
     checkWinner();
@@ -212,18 +342,40 @@ setInterval(function () {
     }
 
 
-    // 20% chance of Power Pull
+    // Bot behavior depends on difficulty
 
-    if (botStamina >= 25 && Math.random() < 0.20) {
+let powerChance;
+let normalPull;
+let powerPull;
 
-        ropePosition += 10;
-        botStamina -= 20;
+if (difficulty === "easy") {
+    powerChance = 0.10;   // 10% Power Pull
+    normalPull = 2;
+    powerPull = 8;
+}
 
-    } else {
+else if (difficulty === "hard") {
+    powerChance = 0.40;   // 40% Power Pull
+    normalPull = 4;
+    powerPull = 12;
+}
 
-        ropePosition += 3;
-        botStamina -= 5;
-    }
+else {
+    powerChance = 0.20;   // NORMAL: 20%
+    normalPull = 3;
+    powerPull = 10;
+}
+
+if (botStamina >= 25 && Math.random() < powerChance) {
+
+    ropePosition += powerPull;
+    botStamina -= 20;
+
+} else {
+
+    ropePosition += normalPull;
+    botStamina -= 5;
+}
 
 
     updateGame();
@@ -340,6 +492,14 @@ function endGame(winner) {
 
     if (winner === "player") {
 
+        document.body.classList.add("victory-effect");
+
+setTimeout(function () {
+    document.body.classList.remove("victory-effect");
+}, 1000);
+
+        recordWin();
+
         resultIcon.textContent = "🏆";
 
         resultTitle.textContent = "YOU WIN!";
@@ -351,6 +511,14 @@ function endGame(winner) {
 
 
     if (winner === "bot") {
+
+        document.body.classList.add("defeat-effect");
+
+setTimeout(function () {
+    document.body.classList.remove("defeat-effect");
+}, 700);
+
+        recordLoss();
 
         resultIcon.textContent = "🤖";
 

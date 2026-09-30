@@ -395,3 +395,340 @@ h1 {
 
     text-shadow: 0 0 30px rgba(57, 169, 255, 0.8);
 }
+/* =========================
+   STATISTICS
+========================= */
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+
+    margin-bottom: 35px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 80px;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: bold;
+
+    color: white;
+}
+
+.stat-label {
+    margin-top: 5px;
+
+    font-size: 11px;
+    letter-spacing: 1px;
+
+    color: #8da6c7;
+}
+/* =========================
+   DIFFICULTY SELECTOR
+========================= */
+
+.difficulty-section {
+    margin-bottom: 25px;
+}
+
+.difficulty-title {
+    margin-bottom: 10px;
+
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+
+    color: #8da6c7;
+}
+
+.difficulty-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.difficulty-btn {
+    padding: 8px 14px;
+
+    border: 1px solid #506783;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #8da6c7;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.difficulty-btn:hover {
+    border-color: #3da9fc;
+    color: white;
+}
+
+.difficulty-btn.active {
+    background: #3da9fc;
+    border-color: #3da9fc;
+    color: white;
+}
+/* =========================
+   TUG ANIMATIONS
+========================= */
+
+/* Normal Pull */
+.rope.pull-effect {
+    animation: normalPullEffect 0.22s ease-out;
+}
+
+@keyframes normalPullEffect {
+    0% {
+        transform: translateX(0);
+    }
+
+    40% {
+        transform: translateX(-6px);
+    }
+
+    70% {
+        transform: translateX(3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* Power Pull */
+.rope.power-effect {
+    animation: powerPullEffect 0.35s ease-out;
+}
+
+@keyframes powerPullEffect {
+    0% {
+        transform: translateX(0) scaleX(1);
+    }
+
+    25% {
+        transform: translateX(-14px) scaleX(1.015);
+    }
+
+    50% {
+        transform: translateX(7px) scaleX(0.99);
+    }
+
+    75% {
+        transform: translateX(-4px);
+    }
+
+    100% {
+        transform: translateX(0) scaleX(1);
+    }
+}
+/* =========================
+   ROPE PULL ANIMATIONS
+   ========================= */
+
+.rope.pull-effect {
+    animation: normalPullEffect 0.25s ease-out;
+}
+
+.rope.power-effect {
+    animation: powerPullEffect 0.4s ease-out;
+}
+
+@keyframes normalPullEffect {
+    0% {
+        transform: scaleX(1);
+    }
+
+    40% {
+        transform: scaleX(1.03);
+    }
+
+    70% {
+        transform: scaleX(0.98);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes powerPullEffect {
+    0% {
+        transform: scaleX(1);
+    }
+
+    20% {
+        transform: scaleX(1.08);
+    }
+
+    40% {
+        transform: scaleX(0.94);
+    }
+
+    60% {
+        transform: scaleX(1.05);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+/* ============================= */
+/* CHARACTER PULL ANIMATIONS */
+/* ============================= */
+
+.player-pull {
+    animation: playerPull 0.35s ease-out;
+}
+
+.player-power {
+    animation: playerPower 0.45s ease-out;
+}
+
+.bot-hit {
+    animation: botHit 0.35s ease-out;
+}
+
+.bot-power-hit {
+    animation: botPowerHit 0.45s ease-out;
+}
+
+
+/* NORMAL PULL */
+
+@keyframes playerPull {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    40% {
+        transform: translateX(-8px) rotate(-6deg);
+    }
+
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
+@keyframes botHit {
+    0% {
+        transform: translateX(0);
+    }
+
+    40% {
+        transform: translateX(-6px) rotate(-4deg);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+
+/* POWER PULL */
+
+@keyframes playerPower {
+    0% {
+        transform: translateX(0) rotate(0deg) scale(1);
+    }
+
+    30% {
+        transform: translateX(-15px) rotate(-10deg) scale(1.15);
+    }
+
+    60% {
+        transform: translateX(4px) rotate(3deg) scale(0.95);
+    }
+
+    100% {
+        transform: translateX(0) rotate(0deg) scale(1);
+    }
+}
+
+@keyframes botPowerHit {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    30% {
+        transform: translateX(-18px) rotate(-12deg);
+    }
+
+    60% {
+        transform: translateX(5px) rotate(4deg);
+    }
+
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+/* ============================= */
+/* WIN / LOSE EFFECTS */
+/* ============================= */
+
+.victory-effect .game {
+    animation: victoryFlash 0.8s ease;
+}
+
+.defeat-effect .game {
+    animation: defeatShake 0.6s ease;
+}
+
+@keyframes victoryFlash {
+    0% {
+        filter: brightness(1);
+    }
+
+    30% {
+        filter: brightness(1.5);
+        transform: scale(1.01);
+    }
+
+    60% {
+        filter: brightness(1.2);
+    }
+
+    100% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes defeatShake {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-8px);
+    }
+
+    40% {
+        transform: translateX(8px);
+    }
+
+    60% {
+        transform: translateX(-5px);
+    }
+
+    80% {
+        transform: translateX(5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
